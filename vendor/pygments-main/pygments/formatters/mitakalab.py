@@ -94,10 +94,9 @@ class MitakalabFormatter(Formatter):
 			lp = '\n'.join(points)
 			ls = '\n'.join(lines)
 
-			yield '<table class="lines highlight">'
+			yield '<table class="lines highlight"><tr>'
 			if sln:
-				yield '<tr><td class="line_points">' + lp + '</td></tr>'
-				yield '<tr>'
+				yield '<td class="line_points">' + lp + '</td>'
 				yield '<td class="line_numbers">' + ls + '</td>'
 			yield '<td class="line_data">'
 			yield dummyoutfile.getvalue()
