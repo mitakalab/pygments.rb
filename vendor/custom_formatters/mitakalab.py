@@ -87,17 +87,17 @@ class MitakalabFormatter(Formatter):
 
           lines = []
           for i in range(fl, fl+lncount):
-              lines.append('<a id="L%d" href="#L%d" rel="#L%d">' % (i, i, i) +
-                            '<i class="icon-link"></i> %*d' % (mw, i) +
-                            '</a>')
+              lines.append('<span id="L%d" rel="L%d">' % (i, i, i) +
+                            '%*d' % (mw, i) +
+                            '</span>')
           ls = '\n'.join(lines)
 
-        yield '<table class="lines"><tr>'
+        yield '<table class="lines highlight"><tr>'
         if sln:
-          yield '<td><pre class="line_numbers">' + ls + '</pre></td>'
-        yield '<td><div class="highlight"><pre>'
+          yield '<td class="line_numbers">' + ls + '</td>'
+        yield '<td class="line_data">'
         yield dummyoutfile.getvalue()
-        yield '</pre></div></td></tr></table>'
+        yield '</td></tr></table>'
 
     def _wrap_code_lines(self, inner):
         """
@@ -108,7 +108,7 @@ class MitakalabFormatter(Formatter):
 
         for line in inner:
             i += 1
-            yield '<div id="LC%d" class="line">%s</div>' % (i, line)
+            yield '<pre><div id="LC%d" class="line">%s</div></pre>' % (i, line)
 
     def _format_code_lines(self, tokensource):
         """
