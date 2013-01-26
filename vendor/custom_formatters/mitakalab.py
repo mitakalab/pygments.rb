@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    pygments.formatters.gitlab
+    pygments.formatters.mitakalab
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    GitLab specific formatter for HTML output.
+    MitakaLab specific formatter for HTML output.
     Based on the standard HTML formatter.
 
-    :copyright: Copyright 2012 by the GitLab team (http://www.gitlab.org).
+    :copyright: Copyright 2012 by the MitakaLab team (http://mitakalab.com).
     :license: BSD, see LICENSE for details.
 """
 
@@ -19,7 +19,7 @@ from pygments.token import Token, Text, STANDARD_TYPES
 from pygments.util import get_bool_opt, get_int_opt
 
 
-__all__ = ['GitlabFormatter']
+__all__ = ['MitakalabFormatter']
 
 
 _escape_html_table = {
@@ -47,9 +47,9 @@ def _get_ttype_class(ttype):
     return fname + aname
 
 
-class GitlabFormatter(Formatter):
+class MitakalabFormatter(Formatter):
     r"""
-    GitLab specific formatter for HTML output.
+    MitakaLab specific formatter for HTML output.
 
     Additional options accepted:
 
@@ -61,8 +61,8 @@ class GitlabFormatter(Formatter):
         The line number for the first line (default: ``1``).
     """
 
-    name = 'GitLab'
-    aliases = ['gitlab']
+    name = 'MitakaLab'
+    aliases = ['mitakalab']
     filenames = []
 
     def __init__(self, **options):
