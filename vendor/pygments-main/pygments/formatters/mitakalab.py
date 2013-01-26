@@ -88,18 +88,17 @@ class MitakalabFormatter(Formatter):
 					points = []
           lines = []
           for i in range(fl, fl+lncount):
-						  points.append('<span id=" P%d" class="point">' % (i) +
-														 '</span>')
+			  points.append('<span id=" P%d" class="point">' % (i) + '</span>')
 
               lines.append('<span id="L%d" rel="L%d" class="number">' % (i, i) +
                             '%*d' % (mw, i) +
                             '</span>')
-					lp = '\n'.join(points)
+          lp = '\n'.join(points)
           ls = '\n'.join(lines)
 
         yield '<table class="lines highlight"><tr>'
         if sln:
-					yield '<td class="line_points">' + lp + '</td>'
+		  yield '<td class="line_points">' + lp + '</td>'
           yield '<td class="line_numbers">' + ls + '</td>'
         yield '<td class="line_data">'
         yield dummyoutfile.getvalue()
