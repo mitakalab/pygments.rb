@@ -88,11 +88,9 @@ class MitakalabFormatter(Formatter):
 			points = []
 			lines = []
 			for i in range(fl, fl+lncount):
-				points.append('<span id=" P%d" class="point">' % (i) + '</span>')
+				points.append('<span id="P%d" rel="P%d" class="point">' % (i, i) + '</span>')
 				
-				lines.append('<span id="L%d" rel="L%d" class="number">' % (i, i) +
-										 '%*d' % (mw, i) +
-										 '</span>')
+				lines.append('<span id="L%d" rel="L%d" class="number">' % (i, i) + '%*d' % (mw, i) + '</span>')
 			lp = '\n'.join(points)
 			ls = '\n'.join(lines)
 
