@@ -87,7 +87,7 @@ class MitakalabFormatter(Formatter):
 
           lines = []
           for i in range(fl, fl+lncount):
-              lines.append('<span id="L%d" rel="L%d">' % (i, i, i) +
+              lines.append('<span id="L%d" rel="L%d">' % (i, i) +
                             '%*d' % (mw, i) +
                             '</span>')
           ls = '\n'.join(lines)
