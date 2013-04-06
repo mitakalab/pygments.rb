@@ -16,7 +16,7 @@ import StringIO
 
 from pygments.formatter import Formatter
 from pygments.token import Token, Text, STANDARD_TYPES
-from pygments.util import get_bool_opt, get_int_opt
+from pygments.util import get_bool_opt, get_int_opt, get_list_opt # hogehoge
 
 
 __all__ = ['MitakalabFormatter']
@@ -69,6 +69,8 @@ class MitakalabFormatter(Formatter):
 		Formatter.__init__(self, **options)
 		self.show_line_numbers = get_bool_opt(options, 'show_line_numbers', True)
 		self.first_line_number = abs(get_int_opt(options, 'first_line_number', 1))
+		self.highlight_lines = get_list_opt(options, 'highlight_lines', []) # hogehoge
+		self.file_name = options.get('filename', '') # hogehoge
 		
 	def _wrap_table(self, inner):
 		"""
@@ -83,14 +85,20 @@ class MitakalabFormatter(Formatter):
 		sln = self.show_line_numbers
 		if sln:
 			fl = self.first_line_number
+			hl = self.highlight_lines # hogehoge
+			fn = self.file_name # hogehoge
 			mw = len(str(lncount + fl - 1))
 					
 			points = []
 			lines = []
 			for i in range(fl, fl+lncount):
-				points.append('<span id="P%d" rel="P%d" class="point">' % (i, i) + '-</span>')
-				
-				lines.append('<span id="L%d" rel="L%d" class="number">' % (i, i) + '%*d' % (mw, i) + '</span>')
+				points.append('<span id="P-%s-%d" rel="P-%s-%d" class="point">' % (fn, i, fn, i) + '-</span>')
+				# hogehoge
+				if i in hl:
+					lines.append('<span id="L-%s-%d" rel="%s-%d" class="number highlight_number">' % (fn, i, fn, i) + '%*d' % (mw, i) + '</span>')
+				else:
+					lines.append('<span id="L-%s-%d" rel="%s-%d" class="number">' % (fn, i, fn, i) + '%*d' % (mw, i) + '</span>')
+
 			lp = '\n'.join(points)
 			ls = '\n'.join(lines)
 
@@ -107,10 +115,16 @@ class MitakalabFormatter(Formatter):
 		"""
 		# subtract 1 since we have to increment i *before* yielding
 		i = self.first_line_number - 1
+		hl = self.highlight_lines
+		fn = self.file_name	
 
 		for line in inner:
 			i += 1
-			yield '<pre><div id="LC%d" class="line">%s</div></pre>' % (i, line)
+			# hogehoge
+			if i in hl:
+				yield '<pre><div id="C-%s-%d" class="line highlight_line">%s</div></pre>' % (fn, i, line)
+			else:
+				yield '<pre><div id="C-%s-%d" class="line">%s</div></pre>' % (fn, i, line)
 
 	def _format_code_lines(self, tokensource):
 		"""
