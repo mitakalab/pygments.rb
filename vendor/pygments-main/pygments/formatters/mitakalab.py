@@ -122,7 +122,7 @@ class MitakalabFormatter(Formatter):
 			i += 1
 			# hogehoge
 			if i in hl:
-				yield '<pre><div id="C-%s-%d" class="line highlight_line">%s</div></pre>' % (fn, i, line)
+				yield '<pre class="highlight_line"><div id="C-%s-%d" class="line">%s</div></pre>' % (fn, i, line)
 			else:
 				yield '<pre><div id="C-%s-%d" class="line">%s</div></pre>' % (fn, i, line)
 
