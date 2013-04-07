@@ -96,9 +96,9 @@ class MitakalabFormatter(Formatter):
 				# points.append('<span id="P-%s-%d" rel="P-%s-%d" class="point">' % (fn, i, fn, i) + '-</span>')
 				# hogehoge
 				if i in hl:
-					lines.append('<span id="L%d-%s" rel="L%d" class="number highlight_number" lineno="%d" filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
+					lines.append('<span id="L%d-%s" rel="L%d" class="number highlight_number" data-lineno="%d" data-filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
 				else:
-					lines.append('<span id="L%d-%s" rel="L%d" class="number" lineno="%d" filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
+					lines.append('<span id="L%d-%s" rel="L%d" class="number" data-lineno="%d" data-filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
 
 			lp = '\n'.join(points)
 			ls = '\n'.join(lines)
@@ -123,9 +123,9 @@ class MitakalabFormatter(Formatter):
 			i += 1
 			# hogehoge
 			if i in hl:
-				yield '<pre class="highlight_line"><div id="C%d-%s" class="line" lineno="%d" filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
+				yield '<pre class="highlight_line"><div id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
 			else:
-				yield '<pre><div id="C%d-%s" class="line" lineno="%d" filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
+				yield '<pre><div id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
 
 	def _format_code_lines(self, tokensource):
 		"""
