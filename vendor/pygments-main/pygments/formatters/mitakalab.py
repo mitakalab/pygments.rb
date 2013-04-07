@@ -92,18 +92,19 @@ class MitakalabFormatter(Formatter):
 			points = []
 			lines = []
 			for i in range(fl, fl+lncount):
-				points.append('<span id="P-%s-%d" rel="P-%s-%d" class="point">' % (fn, i, fn, i) + '-</span>')
+				# hogehoge
+				# points.append('<span id="P-%s-%d" rel="P-%s-%d" class="point">' % (fn, i, fn, i) + '-</span>')
 				# hogehoge
 				if i in hl:
-					lines.append('<span id="L-%s-%d" rel="%s-%d" class="number highlight_number">' % (fn, i, fn, i) + '%*d' % (mw, i) + '</span>')
+					lines.append('<span id="L%d-%s" rel="L%d" class="number highlight_number" lineno="%d" filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
 				else:
-					lines.append('<span id="L-%s-%d" rel="%s-%d" class="number">' % (fn, i, fn, i) + '%*d' % (mw, i) + '</span>')
+					lines.append('<span id="L%d-%s" rel="L%d" class="number" lineno="%d" filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
 
 			lp = '\n'.join(points)
 			ls = '\n'.join(lines)
 
 			yield '<table class="lines highlight"><tr>'
-			yield '<td class="line_points">' + lp + '</td>'
+			# yield '<td class="line_points">' + lp + '</td>'
 			yield '<td class="line_numbers">' + ls + '</td>'
 			yield '<td class="line_data">'
 			yield dummyoutfile.getvalue()
@@ -122,9 +123,9 @@ class MitakalabFormatter(Formatter):
 			i += 1
 			# hogehoge
 			if i in hl:
-				yield '<pre class="highlight_line"><div id="C-%s-%d" class="line">%s</div></pre>' % (fn, i, line)
+				yield '<pre class="highlight_line"><div id="C%d-%s" class="line" lineno="%d" filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
 			else:
-				yield '<pre><div id="C-%s-%d" class="line">%s</div></pre>' % (fn, i, line)
+				yield '<pre><div id="C%d-%s" class="line" lineno="%d" filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
 
 	def _format_code_lines(self, tokensource):
 		"""
