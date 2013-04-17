@@ -71,6 +71,7 @@ class MitakalabFormatter(Formatter):
 		self.first_line_number = abs(get_int_opt(options, 'first_line_number', 1))
 		self.highlight_lines = get_list_opt(options, 'highlight_lines', []) # hogehoge
 		self.file_name = options.get('filename', '') # hogehoge
+		self.file_name_url = options.get('filename_url', '') # hogehoge
 		
 	def _wrap_table(self, inner):
 		"""
@@ -87,6 +88,7 @@ class MitakalabFormatter(Formatter):
 			fl = self.first_line_number
 			hl = self.highlight_lines # hogehoge
 			fn = self.file_name # hogehoge
+			fnu = self.file_name_url
 			mw = len(str(lncount + fl - 1))
 					
 			points = []
@@ -95,10 +97,8 @@ class MitakalabFormatter(Formatter):
 				# hogehoge
 				# points.append('<span id="P-%s-%d" rel="P-%s-%d" class="point">' % (fn, i, fn, i) + '-</span>')
 				# hogehoge
-				if i in hl:
-					lines.append('<span id="L%d-%s" rel="L%d" class="number highlight_number" data-lineno="%d" data-filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
-				else:
-					lines.append('<span id="L%d-%s" rel="L%d" class="number" data-lineno="%d" data-filename="%s">' % (i, fn, i, i, fn) + '%*d' % (mw, i) + '</span>')
+				# if i in hl:
+				lines.append('<span id="L%d-%s" class="number">' % (i, fnu) + '%*d' % (mw, i) + '</span>')
 
 			lp = '\n'.join(points)
 			ls = '\n'.join(lines)
@@ -118,14 +118,15 @@ class MitakalabFormatter(Formatter):
 		i = self.first_line_number - 1
 		hl = self.highlight_lines
 		fn = self.file_name	
+		fnu = self.file_name_url
 
 		for line in inner:
 			i += 1
 			# hogehoge
 			if i in hl:
-				yield '<pre class="highlight_line"><div id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
+				yield '<pre id="C%d-%s" class="line added-line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fnu, i, fn, line)
 			else:
-				yield '<pre><div id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fn, i, fn, line)
+				yield '<pre id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fnu, i, fn, line)
 
 	def _format_code_lines(self, tokensource):
 		"""
