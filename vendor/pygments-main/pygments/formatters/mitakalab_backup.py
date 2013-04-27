@@ -81,12 +81,6 @@ class MitakalabFormatter(Formatter):
 		Wrap the whole thing into a table and add line numbers
 		"""
 		dummyoutfile = StringIO.StringIO()
-		for line in inner:
-			dummyoutfile.write(line)
-
-		yield dummyoutfile.getvalue()
-		
-		"""
 		lncount = 0
 		for line in inner:
 			lncount += 1
@@ -114,16 +108,10 @@ class MitakalabFormatter(Formatter):
 			yield '<td class="line_data">'
 			yield dummyoutfile.getvalue()
 			yield '</td></tr></table>'
-			"""
 
 	def _wrap_code_lines(self, inner):
 		"""
 		Wrap each line in a <div class="line">
-		"""
-
-		for line in inner:
-			yield line
-
 		"""
 		# subtract 1 since we have to increment i *before* yielding
 		i = self.first_line - 1
@@ -138,8 +126,6 @@ class MitakalabFormatter(Formatter):
 				yield '<pre id="C%d-%s" class="line highlight-line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, path_url, i, path, line)
 			else:
 				yield '<pre id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, path_url, i, path, line)
-		"""
-
 
 	def _format_code_lines(self, tokensource):
 		"""
