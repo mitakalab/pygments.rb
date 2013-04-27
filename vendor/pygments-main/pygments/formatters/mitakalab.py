@@ -68,10 +68,13 @@ class MitakalabFormatter(Formatter):
 	def __init__(self, **options):
 		Formatter.__init__(self, **options)
 		self.show_line_numbers = get_bool_opt(options, 'show_line_numbers', True)
-		self.first_line_number = abs(get_int_opt(options, 'first_line_number', 1))
-		self.highlight_lines = get_list_opt(options, 'highlight_lines', []) # hogehoge
-		self.file_name = options.get('filename', '') # hogehoge
-		self.file_name_url = options.get('filename_url', '') # hogehoge
+		self.first_line = abs(get_int_opt(options, 'first_line', 1))
+		# hogehoge
+		self.path = options.get('path', '') 
+		self.path_url = options.get('path_url', '') 
+		self.highlight_lines = get_list_opt(options, 'highlight_lines', [])
+		self.snippet_ids = get_list_opt(options, 'snippet_ids', [])
+		self.note_ids = get_list_opt(options, 'note_ids', [])
 		
 	def _wrap_table(self, inner):
 		"""
@@ -85,20 +88,16 @@ class MitakalabFormatter(Formatter):
 				
 		sln = self.show_line_numbers
 		if sln:
-			fl = self.first_line_number
-			hl = self.highlight_lines # hogehoge
-			fn = self.file_name # hogehoge
-			fnu = self.file_name_url
+			first = self.first_line
+			path = self.path
+			path_url = self.path_url
+			highlight = self.highlight_lines
 			mw = len(str(lncount + fl - 1))
 					
 			points = []
 			lines = []
-			for i in range(fl, fl+lncount):
-				# hogehoge
-				# points.append('<span id="P-%s-%d" rel="P-%s-%d" class="point">' % (fn, i, fn, i) + '-</span>')
-				# hogehoge
-				# if i in hl:
-				lines.append('<span id="L%d-%s" class="number">' % (i, fnu) + '%*d' % (mw, i) + '</span>')
+			for i in range(first, first+lncount):
+				lines.append('<span id="L%d-%s" class="number">' % (i, path_url) + '%*d' % (mw, i) + '</span>')
 
 			lp = '\n'.join(points)
 			ls = '\n'.join(lines)
@@ -115,18 +114,18 @@ class MitakalabFormatter(Formatter):
 		Wrap each line in a <div class="line">
 		"""
 		# subtract 1 since we have to increment i *before* yielding
-		i = self.first_line_number - 1
-		hl = self.highlight_lines
-		fn = self.file_name	
-		fnu = self.file_name_url
+		i = self.first_line - 1
+		highlight = self.highlight_lines
+		path= self.path
+		path_url = self.path_url
 
 		for line in inner:
 			i += 1
 			# hogehoge
-			if i in hl:
-				yield '<pre id="C%d-%s" class="line added-line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fnu, i, fn, line)
+			if i in highlight:
+				yield '<pre id="C%d-%s" class="line highlight-line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, path_url, i, path, line)
 			else:
-				yield '<pre id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, fnu, i, fn, line)
+				yield '<pre id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, path_url, i, path, line)
 
 	def _format_code_lines(self, tokensource):
 		"""
