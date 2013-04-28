@@ -93,7 +93,7 @@ class MitakalabFormatter(Formatter):
 								(cspan and '</span>')
 					else: # both are the same
 						line += part + (lspan and '</span>')
-					line += '\n'
+					line += '<br/>'
 					yield line
 					line = ''
 				elif part:
