@@ -69,7 +69,6 @@ class MitakalabFormatter(Formatter):
 		Formatter.__init__(self, **options)
 		self.show_line_numbers = get_bool_opt(options, 'show_line_numbers', True)
 
-
 	def _format_code_lines(self, tokensource):
 		"""
 		Just format the tokens, without any wrapping tags.
@@ -90,20 +89,21 @@ class MitakalabFormatter(Formatter):
 			for part in parts[:-1]:
 				if line:
 					if lspan != cspan:
-						line += (lspan and '</span>AAA') + cspan + part + \
-								(cspan and '</span>BBB')
+						line += (lspan and '</span>') + cspan + part + \
+								(cspan and '</span>')
 					else: # both are the same
-						line += part + (lspan and '</span>CCC')
-					yield line += '###'
+						line += part + (lspan and '</span>')
+					line += '\n'
+					yield line
 					line = ''
 				elif part:
-					yield cspan + part + (cspan and '</span>DDD')
+					yield cspan + part + (cspan and '</span>')
 				else:
 					yield '<br/>'
 			# for the last line
 			if line and parts[-1]:
 				if lspan != cspan:
-					line += (lspan and '</span>EEE') + cspan + parts[-1]
+					line += (lspan and '</span>') + cspan + parts[-1]
 					lspan = cspan
 				else:
 					line += parts[-1]
@@ -114,7 +114,6 @@ class MitakalabFormatter(Formatter):
 
 		if line:
 			yield line + (lspan and '</span\>')
-
 
 	def format_unencoded(self, tokensource, outfile):
 		"""
@@ -129,73 +128,3 @@ class MitakalabFormatter(Formatter):
 		for piece in source:
 			outfile.write(piece)
 				
-	# wrap table
-	# source = self._wrap_table(source)
-	"""		
-	def _wrap_table(self, inner):
-
-		Wrap the whole thing into a table and add line numbers
-
-		dummyoutfile = StringIO.StringIO()
-		for line in inner:
-			dummyoutfile.write(line)
-		yield dummyoutfile.getvalue()
-		
-		lncount = 0
-		for line in inner:
-			lncount += 1
-			dummyoutfile.write(line)
-				
-		sln = self.show_line_numbers
-		if sln:
-			first = self.first_line
-			path = self.path
-			path_url = self.path_url
-			highlight = self.highlight_lines
-			mw = len(str(lncount + fl - 1))
-					
-			points = []
-			lines = []
-			for i in range(first, first+lncount):
-				lines.append('<span id="L%d-%s" class="number">' % (i, path_url) + '%*d' % (mw, i) + '</span>')
-
-			lp = '\n'.join(points)
-			ls = '\n'.join(lines)
-
-			yield '<table class="lines highlight"><tr>'
-			# yield '<td class="line_points">' + lp + '</td>'
-			yield '<td class="line_numbers">' + ls + '</td>'
-			yield '<td class="line_data">'
-			yield dummyoutfile.getvalue()
-			yield '</td></tr></table>'
-
-	"""
-		
-	# warp code
-	# source = self._wrap_code_lines(source)
-  """
-	def _wrap_code_lines(self, inner):
-
-		Wrap each line in a <div class="line">
-
-
-		for line in inner:
-			yield line
-
-		# subtract 1 since we have to increment i *before* yielding
-		i = self.first_line - 1
-		highlight = self.highlight_lines
-		path= self.path
-		path_url = self.path_url
-
-		for line in inner:
-			i += 1
-			# hogehoge
-			if i in highlight:
-				yield '<pre id="C%d-%s" class="line highlight-line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, path_url, i, path, line)
-			else:
-				yield '<pre id="C%d-%s" class="line" data-lineno="%d" data-filename="%s">%s</div></pre>' % (i, path_url, i, path, line)
-
-	"""
-
-
